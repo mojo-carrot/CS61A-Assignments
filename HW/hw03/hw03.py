@@ -25,6 +25,15 @@ def num_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n == 8:
+        return 1
+    elif n < 10:
+        return 0
+    if n % 10 == 8:
+        return num_eights(n // 10) + 1
+    else:
+        return num_eights(n // 10)
+    
 
 
 def digit_distance(n):
@@ -47,6 +56,10 @@ def digit_distance(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        return 0
+    x, y = (n // 10) % 10, n % 10
+    return digit_distance(n // 10) + abs(x - y)
 
 
 def interleaved_sum(n, odd_func, even_func):
@@ -71,6 +84,14 @@ def interleaved_sum(n, odd_func, even_func):
     True
     """
     "*** YOUR CODE HERE ***"
+    def inner_interleaved_sum(k, isOdd):
+        if k > n:
+            return 0
+        if isOdd == True:
+            return odd_func(k) + inner_interleaved_sum(k + 1, False)
+        else:
+            return even_func(k) + inner_interleaved_sum(k + 1, True)
+    return inner_interleaved_sum(1, True)
 
 
 def next_smaller_dollar(bill):
@@ -107,6 +128,15 @@ def count_dollars(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    def count_dollar(left, bill):
+        if left < 0:
+            return 0
+        if left == 0:
+            return 1
+        if bill == 1:
+            return 1
+        return count_dollar(left - bill, bill) + count_dollar(left, next_smaller_dollar(bill))
+    return count_dollar(total, 100)
 
 
 def next_larger_dollar(bill):
@@ -143,6 +173,15 @@ def count_dollars_upward(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    def count_dollar(now_dollar, bill):
+        if now_dollar > total:
+            return 0
+        if now_dollar == total:
+            return 1
+        if bill == None:
+            return 0
+        return count_dollar(now_dollar + bill, bill) + count_dollar(now_dollar, next_larger_dollar(bill))
+    return count_dollar(0, 1)
 
 
 def print_move(origin, destination):
